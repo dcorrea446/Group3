@@ -1,4 +1,11 @@
 import datetime
+import random  # This is just for generating random market prices for demonstration purposes.
+
+class MarketPriceFetcher:
+    def fetch_market_price(self, product_id):
+        # Simulate fetching the market price from an external source (e.g., an API)
+        # In practice, you would replace this with actual logic to fetch the price.
+        return random.uniform(5.0, 20.0)  # Replace this with your actual price fetching logic
 
 class PriceTag:
     def __init__(self, product_id, current_price):
@@ -20,6 +27,10 @@ class Product:
         self.Description = description
         self.Price = price
 
+    def get_current_market_price(self, market_price_fetcher):
+        market_price = market_price_fetcher.fetch_market_price(self.ProductID)
+        return market_price
+
     def __str__(self):
         return f"Product ID: {self.ProductID}\nName: {self.Name}\nDescription: {self.Description}\nPrice: {self.Price}"
 
@@ -33,11 +44,16 @@ class ItemPrice(PriceTag):
         return f"Name: {self.Name}\n{super().__str__()}\nCurrency: {self.Currency}"
 
 # Example usage:
+market_price_fetcher = MarketPriceFetcher()
+
 product1 = Product("P123", "Widget", "A simple widget", 10.99)
 print(product1)
 
-# Create an ItemPrice instance associated with the product
-item1 = ItemPrice(product1.ProductID, product1.Price, product1.Name, "USD")
+# Get and update the current market price of the item
+current_market_price = product1.get_current_market_price(market_price_fetcher)
+print(f"Current Market Price: {current_market_price}")
+
+item1 = ItemPrice(product1.ProductID, current_market_price, product1.Name, "USD")
 print(item1)
 
 # Update the price of the item
