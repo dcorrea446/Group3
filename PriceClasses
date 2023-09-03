@@ -1,0 +1,31 @@
+import datetime
+
+class PriceTag:
+    def __init__(self, product_id, current_price):
+        self.ProductID = product_id
+        self.CurrentPrice = current_price
+        self.LastUpdated = datetime.datetime.now()
+
+    def update_price(self, new_price):
+        self.CurrentPrice = new_price
+        self.LastUpdated = datetime.datetime.now()
+
+    def __str__(self):
+        return f"Product ID: {self.ProductID}\nCurrent Price: {self.CurrentPrice}\nLast Updated: {self.LastUpdated}"
+
+class ItemPrice(PriceTag):
+    def __init__(self, product_id, current_price, name, currency):
+        super().__init__(product_id, current_price)
+        self.Name = name
+        self.Currency = currency
+
+    def __str__(self):
+        return f"Name: {self.Name}\n{super().__str__()}\nCurrency: {self.Currency}"
+
+# Example usage:
+item1 = ItemPrice("P123", 10.99, "Widget", "USD")
+print(item1)
+
+# Update the price
+item1.update_price(12.99)
+print(item1)
