@@ -1,11 +1,13 @@
 import datetime
-import random  # This is just for generating random market prices for demonstration purposes.
+import random  # For simulating market price fetching (you can replace this with your actual logic)
+import board
+import adafruit_character_lcd.character_lcd_rgb_i2c as character_lcd
 
 class MarketPriceFetcher:
     def fetch_market_price(self, product_id):
         # Simulate fetching the market price from an external source (e.g., an API)
-        # In practice, you would replace this with actual logic to fetch the price.
-        return random.uniform(5.0, 20.0)  # Replace this with your actual price fetching logic
+        # In practice, you would replace this with actual price fetching logic
+        return random.uniform(5.0, 20.0)  # Replace with your logic
 
 class PriceTag:
     def __init__(self, product_id, current_price):
@@ -43,6 +45,22 @@ class ItemPrice(PriceTag):
     def __str__(self):
         return f"Name: {self.Name}\n{super().__str__()}\nCurrency: {self.Currency}"
 
+class VPTController:
+    def __init__(self):
+        # Initialize the LCD display
+        lcd_columns = 16
+        lcd_rows = 2
+        i2c = board.I2C()
+        lcd = character_lcd.Character_LCD_RGB_I2C(i2c, lcd_columns, lcd_rows)
+
+        self.lcd = lcd
+
+    def update_price_display(self, product):
+        # Display the product's current price on the LCD
+        price_text = f"Price: ${product.Price:.2f}"
+        self.lcd.clear()
+        self.lcd.message = price_text
+
 # Example usage:
 market_price_fetcher = MarketPriceFetcher()
 
@@ -56,6 +74,8 @@ print(f"Current Market Price: {current_market_price}")
 item1 = ItemPrice(product1.ProductID, current_market_price, product1.Name, "USD")
 print(item1)
 
-# Update the price of the item
-item1.update_price(12.99)
-print(item1)
+# Initialize the VPTController
+vpt_controller = VPTController()
+
+# Update the price display on the physical price tag
+vpt_controller.update_price_display(item1)
