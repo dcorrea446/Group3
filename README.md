@@ -1,4 +1,4 @@
-# Group3
+# Group3 - ISM6106
 A Python Project using the rasberry pi pico.
 
 A "Market-Time Price Tag" designed for shoes/items in the resale market.
