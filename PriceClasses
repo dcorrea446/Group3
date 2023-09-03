@@ -13,6 +13,16 @@ class PriceTag:
     def __str__(self):
         return f"Product ID: {self.ProductID}\nCurrent Price: {self.CurrentPrice}\nLast Updated: {self.LastUpdated}"
 
+class Product:
+    def __init__(self, product_id, name, description, price):
+        self.ProductID = product_id
+        self.Name = name
+        self.Description = description
+        self.Price = price
+
+    def __str__(self):
+        return f"Product ID: {self.ProductID}\nName: {self.Name}\nDescription: {self.Description}\nPrice: {self.Price}"
+
 class ItemPrice(PriceTag):
     def __init__(self, product_id, current_price, name, currency):
         super().__init__(product_id, current_price)
@@ -23,9 +33,13 @@ class ItemPrice(PriceTag):
         return f"Name: {self.Name}\n{super().__str__()}\nCurrency: {self.Currency}"
 
 # Example usage:
-item1 = ItemPrice("P123", 10.99, "Widget", "USD")
+product1 = Product("P123", "Widget", "A simple widget", 10.99)
+print(product1)
+
+# Create an ItemPrice instance associated with the product
+item1 = ItemPrice(product1.ProductID, product1.Price, product1.Name, "USD")
 print(item1)
 
-# Update the price
+# Update the price of the item
 item1.update_price(12.99)
 print(item1)
